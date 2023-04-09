@@ -12,5 +12,17 @@ module.exports = function convert2Drupal (article) {
 
   node.field_content_body = [{ value: article.content, format: 'basic_html' }]
 
+  node.field_content_images = article.images.map(img => {
+    return {
+      target_type: 'fileUpload',
+      data: {
+        filename: path.basename(img.src),
+        src: img.src
+      },
+      target_id: null,
+      alt: img.alt
+    }
+  })
+
   return node
 }
