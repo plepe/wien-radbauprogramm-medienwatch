@@ -1,5 +1,6 @@
 const allNewspapers = [
-  new require('./NewspaperMeinBezirk')
+  require('./NewspaperMeinBezirk'),
+  require('./NewspaperRathauskorrespondenz')
 ]
 
 module.exports = allNewspapers.map(N => new N())
