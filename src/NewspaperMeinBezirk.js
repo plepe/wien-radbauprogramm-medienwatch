@@ -15,6 +15,15 @@ module.exports = class NewspaperMeinBezirk {
         const content = document.querySelector('div[data-content-text=""]')
         const images = []
 
+        const headerPict = document.querySelector('header picture')
+        if (headerPict) {
+          const dimensions = headerPict.querySelector('source').getAttribute('srcset').split(', ')
+          images.push({
+            src: dimensions.pop().split('?')[0],
+            alt: headerPict.querySelector('img').getAttribute('alt')
+          })
+        }
+
         Array.from(content.children).forEach(p => {
           if (!['P', 'H2', 'H3'].includes(p.nodeName)) {
             content.removeChild(p)
@@ -27,7 +36,7 @@ module.exports = class NewspaperMeinBezirk {
           if (p.nodeName === 'FIGURE') {
             const img = p.querySelector('img')
             images.push({
-              src: img.getAttribute('data-src').split('?')[0],
+              src: img.getAttribute('data-src').split('?')[0].replace('_L.jpg', '_XXL.jpg'),
               alt: img.getAttribute('alt')
             })
           }
