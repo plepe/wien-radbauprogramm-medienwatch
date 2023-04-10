@@ -1,12 +1,24 @@
+#!/usr/bin/env node
+const ArgumentParser = require('argparse').ArgumentParser
+
 const NewspaperMeinBezirk = require('./src/NewspaperMeinBezirk')
 const convert2Drupal = require('./src/convert2Drupal')
 const drupal = require('./src/drupal')
 
-const url = process.argv[process.argv.length - 1]
+const parser = new ArgumentParser({
+  add_help: true,
+  description: 'Importiert einen Medienbericht in ein Drupal'
+})
+
+parser.add_argument('url', {
+  help: 'URL von wo der Medienbericht geladen werden soll.'
+})
+
+const args = parser.parse_args()
 
 const newspaper = new NewspaperMeinBezirk()
 
-newspaper.loadArticle(url, (err, article) => {
+newspaper.loadArticle(args.url, (err, article) => {
   if (err) {
     console.error(err)
     process.exit(1)

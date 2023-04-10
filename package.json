@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "argparse": "^2.0.1",
+    "async": "^3.2.4",
+    "drupal-rest": "github:plepe/drupal-rest-js",
+    "jsdom": "^21.1.1"
+  }
+}
