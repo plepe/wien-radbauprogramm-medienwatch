@@ -2,7 +2,7 @@ const loadArticle = require('./src/loadArticle')
 const convert2Drupal = require('./src/convert2Drupal')
 const drupal = require('./src/drupal')
 
-const url = ''
+const url = process.argv[process.argv.length - 1]
 
 loadArticle(url, (err, article) => {
   if (err) {
@@ -18,6 +18,6 @@ loadArticle(url, (err, article) => {
       process.exit(1)
     }
 
-    console.log('Saved as node ' + result.nid[0].value)
+    console.log('https://wien.plepe.at/hauptrad/node/' + result.nid[0].value)
   })
 })
