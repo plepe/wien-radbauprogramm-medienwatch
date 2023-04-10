@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const ArgumentParser = require('argparse').ArgumentParser
 
-const import = require('./src/import')
+const newsImport = require('./src/newsImport')
 const drupal = require('./src/drupal')
 
 const parser = new ArgumentParser({
@@ -21,7 +21,7 @@ drupal.whenLoggedIn((err) => {
     process.exit(1)
   }
 
-  import(null, args.url, (err, result) => {
+  newsImport(null, args.url, (err, result) => {
     if (err) {
       console.error(err)
       process.exit(1)
