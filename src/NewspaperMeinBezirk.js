@@ -2,6 +2,10 @@ const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 
 module.exports = class NewspaperMeinBezirk {
+  match (url) {
+    return url.match(/^https:\/\/(www\.)?meinbezirk\.at\//)
+  }
+
   loadArticle (url, callback) {
     fetch(url)
       .then(req => req.text())
