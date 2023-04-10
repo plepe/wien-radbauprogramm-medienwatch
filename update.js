@@ -15,11 +15,18 @@ parser.add_argument('id', {
 
 const args = parser.parse_args()
 
-update(args.id, (err, result) => {
+drupal.whenLoggedIn((err) => {
   if (err) {
     console.error(err)
     process.exit(1)
   }
 
-  console.log('https://wien.plepe.at/hauptrad/node/' + result.nid[0].value)
+  update(args.id, (err, result) => {
+    if (err) {
+      console.error(err)
+      process.exit(1)
+    }
+
+    console.log('https://wien.plepe.at/hauptrad/node/' + result.nid[0].value)
+  })
 })
