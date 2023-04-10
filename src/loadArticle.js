@@ -19,7 +19,7 @@ module.exports = function loadArticle (url, callback) {
           content.removeChild(p)
         }
 
-        if (p.textContent.trim() === 'Das könnte dich auch interessieren:' || p.textContent.trim() === '') {
+        if (p.textContent.trim() === 'Das könnte dich auch interessieren:' || p.textContent.trim() === '' || p.textContent.trim() === 'Mehr zu Thema:') {
           content.removeChild(p)
         }
 
