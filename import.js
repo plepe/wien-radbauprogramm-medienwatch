@@ -2,6 +2,7 @@
 const ArgumentParser = require('argparse').ArgumentParser
 
 const import = require('./src/import')
+const drupal = require('./src/drupal')
 
 const parser = new ArgumentParser({
   add_help: true,
@@ -14,11 +15,18 @@ parser.add_argument('url', {
 
 const args = parser.parse_args()
 
-import(null, args.url, (err, result) => {
+drupal.whenLoggedIn((err) => {
   if (err) {
     console.error(err)
     process.exit(1)
   }
 
-  console.log('https://wien.plepe.at/hauptrad/node/' + result.nid[0].value)
+  import(null, args.url, (err, result) => {
+    if (err) {
+      console.error(err)
+      process.exit(1)
+    }
+
+    console.log('https://wien.plepe.at/hauptrad/node/' + result.nid[0].value)
+  })
 })
