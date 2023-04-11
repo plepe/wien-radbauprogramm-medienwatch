@@ -20,18 +20,15 @@ module.exports = class NewspaperMeinBezirk {
         const title = document.querySelector('meta[property="og:title"]').getAttribute('content')
         const date = document.querySelector('meta[property="article:published_time"]').getAttribute('content').split('T')[0]
 
+        const contentImages = document.querySelectorAll('.article-image-loop-container img')
+        const images = Array.from(contentImages).map(img => {
+          return {
+            src: img.getAttribute('data-src').split('?')[0].replace('_L.jpg', '_XXL.jpg'),
+            alt: img.getAttribute('alt')
+          }
+        })
+
         const content = document.querySelector('div[data-content-text=""]')
-        const images = []
-
-        const headerPict = document.querySelector('header picture')
-        if (headerPict) {
-          const dimensions = headerPict.querySelector('source').getAttribute('srcset').split(', ')
-          images.push({
-            src: dimensions.pop().split('?')[0],
-            alt: headerPict.querySelector('img').getAttribute('alt')
-          })
-        }
-
         Array.from(content.children).forEach(p => {
           if (!['P', 'H2', 'H3'].includes(p.nodeName)) {
             content.removeChild(p)
@@ -39,14 +36,6 @@ module.exports = class NewspaperMeinBezirk {
 
           if (p.textContent.trim() === 'Das könnte dich auch interessieren:' || p.textContent.trim() === '' || p.textContent.trim() === 'Mehr zu Thema:') {
             content.removeChild(p)
-          }
-
-          if (p.nodeName === 'FIGURE') {
-            const img = p.querySelector('img')
-            images.push({
-              src: img.getAttribute('data-src').split('?')[0].replace('_L.jpg', '_XXL.jpg'),
-              alt: img.getAttribute('alt')
-            })
           }
         })
 
