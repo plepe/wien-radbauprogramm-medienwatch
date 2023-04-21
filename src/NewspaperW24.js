@@ -17,7 +17,7 @@ module.exports = class NewspaperW24 {
         const dom = new JSDOM(body)
         const document = dom.window.document
 
-        const title = document.querySelector('meta[property="og:title"]').getAttribute('content')
+        const title = document.querySelector('header h1').innerHTML
         let date = document.querySelector('.content span[title]').getAttribute('title')
         date = date.substr(6, 4) + '-' + date.substr(3, 2) + '-' + date.substr(0, 2)
 
