@@ -12,7 +12,7 @@ module.exports = function convert2Drupal (newspaper, article) {
 
   node.field_content_body = [{ value: article.content, format: 'basic_html' }]
 
-  node.field_content_images = article.images.map(img => {
+  node.field_content_images = (article.images ?? []).map(img => {
     return {
       target_type: 'fileUpload',
       data: {
@@ -21,6 +21,17 @@ module.exports = function convert2Drupal (newspaper, article) {
       },
       target_id: null,
       alt: img.alt
+    }
+  })
+
+  node.field_content_video = (article.videos ?? []).map(vid => {
+    return {
+      target_type: 'fileUpload',
+      data: {
+        filename: vid.filename ?? path.basename(vid.src),
+        src: vid.src
+      },
+      target_id: null
     }
   })
 
