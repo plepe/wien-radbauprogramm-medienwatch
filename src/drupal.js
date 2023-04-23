@@ -1,7 +1,7 @@
 const DrupalRest = require('drupal-rest')
 const config = require('../config.json')
 
-let callbacks = []
+const callbacks = []
 
 const drupal = new DrupalRest(config.drupal)
 drupal.login((err) => {

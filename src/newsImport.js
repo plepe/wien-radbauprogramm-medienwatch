@@ -27,7 +27,7 @@ module.exports = function newsImport (id, url, callback) {
       })
     }
   },
-  (err, {origNode, newNode}) => {
+  (err, { origNode, newNode }) => {
     if (err) { return callback(err) }
 
     const update = {}

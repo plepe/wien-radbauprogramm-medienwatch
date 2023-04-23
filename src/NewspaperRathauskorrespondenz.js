@@ -49,15 +49,15 @@ module.exports = class NewspaperRathauskorrespondenz {
                 .then(req => {
                   const cd = req.headers.get('content-disposition')
                   const m = cd.match(/filename="(.*)"/)
-                  const filename = m ? m[1] : "file.jpg"
+                  const filename = m ? m[1] : 'file.jpg'
 
                   done(null, { src, alt, filename })
                 })
-          })
+            })
         }, (err, images) => {
           entry.images = images
           callback(null, entry)
         })
-    })
+      })
   }
 }
