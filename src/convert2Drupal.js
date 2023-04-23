@@ -17,6 +17,7 @@ module.exports = function convert2Drupal (newspaper, article) {
       target_type: 'fileUpload',
       data: {
         filename: img.filename ?? path.basename(img.src),
+        content: img.content,
         src: img.src
       },
       target_id: null,
@@ -29,6 +30,7 @@ module.exports = function convert2Drupal (newspaper, article) {
       target_type: 'fileUpload',
       data: {
         filename: vid.filename ?? path.basename(vid.src),
+        content: vid.content,
         src: vid.src
       },
       target_id: null
