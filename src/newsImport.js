@@ -1,3 +1,5 @@
+const async = require('async')
+
 const findNewspaper = require('./findNewspaper')
 const convert2Drupal = require('./convert2Drupal')
 const drupal = require('./drupal')
@@ -8,12 +10,36 @@ module.exports = function newsImport (id, url, callback) {
     return callback(new Error('No newspaper module found for ' + url))
   }
 
-  newspaper.loadArticle(url, (err, article) => {
+  async.parallel({
+    origNode: (done) => {
+      if (id) {
+        drupal.nodeGet(id, done)
+      } else {
+        done(null, {})
+      }
+    },
+    newNode: (done) => {
+      newspaper.loadArticle(url, (err, article) => {
+        if (err) { return done(err) }
+
+        const node = convert2Drupal(newspaper, article)
+        done(null, node)
+      })
+    }
+  },
+  (err, {origNode, newNode}) => {
     if (err) { return callback(err) }
 
-    const node = convert2Drupal(newspaper, article)
+    const update = {}
 
-    drupal.nodeSave(id, node, (err, result) => {
+    Object.keys(newNode).forEach(k => {
+      if (k.match(/^field_content_/) || !(k in origNode) || !origNode[k].length) {
+        update[k] = newNode[k]
+      }
+    })
+    update.type = newNode.type
+
+    drupal.nodeSave(id, update, (err, result) => {
       if (err) { return callback(err) }
 
       callback(null, result)
