@@ -1,5 +1,5 @@
 const async = require('async')
-const child_process = require('child_process')
+const childProcess = require('child_process')
 const fs = require('fs')
 
 module.exports = class NewspaperYoutube {
@@ -12,7 +12,7 @@ module.exports = class NewspaperYoutube {
   }
 
   loadArticle (url, callback) {
-    child_process.execFile('youtube-dl', [url, '-o', 'video.mp4', '--write-description', '-S', 'res,ext:mp4:m4a', '--recode', 'mp4', '-f', 'bestvideo[height<=720]+bestaudio/best[height<=720]'], {
+    childProcess.execFile('youtube-dl', [url, '-o', 'video.mp4', '--write-description', '-S', 'res,ext:mp4:m4a', '--recode', 'mp4', '-f', 'bestvideo[height<=720]+bestaudio/best[height<=720]'], {
       cwd: '/tmp'
     },
     (err) => {

@@ -56,7 +56,7 @@ module.exports = class NewspaperRathauskorrespondenz {
             })
         }, (err, images) => {
           entry.images = images
-          callback(null, entry)
+          callback(err, entry)
         })
       })
   }
