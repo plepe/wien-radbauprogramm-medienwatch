@@ -14,7 +14,6 @@ const parser = new ArgumentParser({
 const args = parser.parse_args()
 
 drupal.whenLoggedIn(() => {
-  console.log('when logged in')
   drupal.get('medienberichte-auto-update.json', (err, data) => {
     data = JSON.parse(data)
 
