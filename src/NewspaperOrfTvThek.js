@@ -43,6 +43,11 @@ module.exports = class NewspaperOrfTvThek {
 
         done()
       })
-    ], (err) => callback(err, result))
+      ], (err) => this.cleanUp(() => callback(err, result))
+    )
+  }
+
+  cleanUp (callback) {
+    fs.unlink(config.tmpDir + '/video.mp4', callback)
   }
 }

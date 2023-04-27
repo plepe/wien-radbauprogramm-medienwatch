@@ -33,7 +33,14 @@ module.exports = class NewspaperYoutube {
           entry.content = content.toString()
           done()
         })
-      ], (err) => callback(err, entry))
+      ], (err) => this.cleanUp(() => callback(err, entry)))
     })
+  }
+
+  cleanUp (callback) {
+    async.parallel([
+      (done) => fs.unlink(config.tmpDir + '/video.mp4', done),
+      (done) => fs.unlink(config.tmpDir + '/video.description', done)
+    ], callback)
   }
 }
