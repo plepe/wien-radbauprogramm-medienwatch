@@ -3,7 +3,8 @@ const allNewspapers = [
   require('./NewspaperRathauskorrespondenz'),
   require('./NewspaperW24'),
   require('./NewspaperOrfTvThek'),
-  require('./NewspaperYoutube')
+  require('./NewspaperYoutube'),
+  require('./NewspaperTwitter')
 ]
 
 module.exports = allNewspapers.map(N => new N())
