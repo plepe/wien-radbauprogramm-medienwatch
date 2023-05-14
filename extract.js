@@ -20,7 +20,7 @@ if (!newspaper) {
   process.exit(1)
 }
 
-newspaper.loadArticle(url, (err, article) => {
+newspaper.loadArticle(url, {}, (err, article) => {
   if (err) { return callback(err) }
 
   console.log(JSON.stringify(article, null, '  '))

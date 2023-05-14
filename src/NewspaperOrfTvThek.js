@@ -12,7 +12,7 @@ module.exports = class NewspaperOrfTvThek {
     return url.match(/^https:\/\/tvthek\.orf\.at\//)
   }
 
-  loadArticle (url, callback) {
+  loadArticle (url, node, callback) {
     const displayId = url.match(/\/([0-9]+)$/)[1]
     const result = { url }
 

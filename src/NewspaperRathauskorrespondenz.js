@@ -11,7 +11,7 @@ module.exports = class NewspaperRathauskorrespondenz {
     return url.match(/^https:\/\/(presse\.wien\.gv\.at\/|www\.wien\.gv\.at\/presse\/)/)
   }
 
-  loadArticle (url, callback) {
+  loadArticle (url, node, callback) {
     fetch(url)
       .then(req => req.text())
       .then(body => {

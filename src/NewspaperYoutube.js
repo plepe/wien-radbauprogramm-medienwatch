@@ -12,7 +12,7 @@ module.exports = class NewspaperYoutube {
     return url.match(/^https:\/\/((www\.|)youtube\.com|youtu\.be)\//)
   }
 
-  loadArticle (url, callback) {
+  loadArticle (url, node, callback) {
     childProcess.execFile('youtube-dl', [url, '-o', 'video.mp4', '--write-description', '-S', 'res,ext:mp4:m4a', '--recode', 'mp4', '-f', 'bestvideo[height<=720]+bestaudio/best[height<=720]'], {
       cwd: config.tmpDir
     },

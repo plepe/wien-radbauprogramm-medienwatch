@@ -10,7 +10,7 @@ module.exports = class NewspaperMeinBezirk {
     return url.match(/^https:\/\/(www\.)?meinbezirk\.at\//)
   }
 
-  loadArticle (url, callback) {
+  loadArticle (url, node, callback) {
     fetch(url)
       .then(req => req.text())
       .then(body => {

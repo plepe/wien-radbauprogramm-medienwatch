@@ -10,7 +10,7 @@ module.exports = class NewspaperW24 {
     return url.match(/^https:\/\/www\.w24\.at\//)
   }
 
-  loadArticle (url, callback) {
+  loadArticle (url, node, callback) {
     fetch(url)
       .then(req => req.text())
       .then(body => {
