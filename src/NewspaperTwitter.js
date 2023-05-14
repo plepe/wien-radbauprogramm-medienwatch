@@ -27,7 +27,8 @@ module.exports = class NewspaperTwitter {
 
     const twitterClient = new Twitter(config.twitter)
     const entry = {
-      images: []
+      images: [],
+      videos: []
     }
 
     twitterUnrollHtml.loadThread(twitterClient, id, (err, thread) => {
@@ -43,9 +44,16 @@ module.exports = class NewspaperTwitter {
         }
 
         tweet.extended_entities.media.forEach(media => {
-          entry.images.push({
-            src: media.media_url_https
-          })
+          if (media.type === 'video') {
+            entry.videos.push({
+              src: media.video_info.variants[0].url,
+              filename: 'video.mp4'
+            })
+          } else {
+            entry.images.push({
+              src: media.media_url_https
+            })
+          }
         })
       })
 
