@@ -44,7 +44,7 @@ module.exports = class NewspaperTwitter {
         }
 
         tweet.extended_entities.media.forEach(media => {
-          if (media.type === 'video') {
+          if (['video', 'animated_gif'].includes(media.type)) {
             entry.videos.push({
               src: media.video_info.variants[0].url,
               filename: 'video.mp4'
