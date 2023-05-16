@@ -5,6 +5,16 @@ const childProcess = require('child_process')
 const fs = require('fs')
 const config = require('../config.json')
 
+const htmlifyOptions = {
+  htmlHideImages: true,
+  tweetFormat: `
+<h4>
+<span class="author"><a href="https://twitter.com/{{ user.screen_name }}">{{ user.name }}</a><span>
+<span class="date"><a href="{{ tweet.url }}">{{ tweet.created_at|moment(options.timeFormat|default('llll')) }}</a></span>
+</h4>
+<div class="full_text">{{ tweet.text|nl2br }}</div>`
+}
+
 module.exports = class NewspaperTwitter {
   title () {
     return 'Twitter'
@@ -33,10 +43,6 @@ module.exports = class NewspaperTwitter {
 
     twitterUnrollHtml.loadThread(twitterClient, id, (err, thread) => {
       if (err) { return callback(err) }
-
-      const htmlifyOptions = {
-        htmlHideImages: true
-      }
 
       thread.forEach(tweet => {
         if (!tweet.extended_entities) {
