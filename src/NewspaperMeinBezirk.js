@@ -20,10 +20,12 @@ module.exports = class NewspaperMeinBezirk {
         const title = document.querySelector('meta[property="og:title"]').getAttribute('content')
         const date = document.querySelector('meta[property="article:published_time"]').getAttribute('content').split('T')[0]
 
-        const contentImages = document.querySelectorAll('.article-image-loop-container img')
+        const contentImages = document.querySelectorAll('.image-loop-container img')
         const images = Array.from(contentImages).map(img => {
           return {
-            src: img.getAttribute('data-src').split('?')[0].replace('_L.jpg', '_XXL.jpg'),
+            src: img.getAttribute('data-src').split('?')[0]
+              .replace('_L.jpg', '_XXL.jpg')
+              .replace('_L.webp', '_XXL.webp'),
             alt: img.getAttribute('alt')
           }
         })
