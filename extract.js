@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const ArgumentParser = require('argparse').ArgumentParser
-const findNewspaper = require('./src/findNewspaper')
+const loadUrl = require('./src/loadUrl')
 
 const parser = new ArgumentParser({
   add_help: true,
@@ -14,14 +14,11 @@ parser.add_argument('url', {
 const args = parser.parse_args()
 const url = args.url
 
-const newspaper = findNewspaper(url)
-if (!newspaper) {
-  console.log('No newspaper module found for ' + url)
-  process.exit(1)
-}
+loadUrl(url, (err, result) => {
+  if (err) {
+    console.error(err)
+    process.exit(1)
+  }
 
-newspaper.loadArticle(url, {}, (err, article) => {
-  if (err) { return callback(err) }
-
-  console.log(JSON.stringify(article, null, '  '))
+  console.log(JSON.stringify(result, null, '  '))
 })
