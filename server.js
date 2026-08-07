@@ -9,6 +9,12 @@ const defaultConfig = {
   ip: '0.0.0.0'
 }
 
+const contentTypes = {
+  html: 'text/html',
+  css: 'text/css',
+  js: 'application/js'
+}
+
 const parser = new ArgumentParser({
   add_help: true,
   description: 'Starts a server, which takes media article URLs as request (GET parameter "url") and returns JSON objects with the content.'
@@ -41,7 +47,7 @@ function handleRequest (request, response) {
 
   const reqUrl = new URL('http://localhost' + request.url)
 
-  if (reqUrl.pathname !== '/') {
+  if (reqUrl.pathname !== '/' || !reqUrl.search) {
     // serve local file
     return serveFile(reqUrl.pathname, handleResult)
   }
@@ -83,15 +89,21 @@ function handleRequest (request, response) {
 }
 
 function serveFile (path, callback) {
+  if (path === '/') {
+    path = '/index.html'
+  }
+
   if (path.includes('..')) {
     return callback(new Error('illegal path ' + path))
   }
+
+  const [m, ext] = path.match(/\.([a-z]+)$/)
 
   fs.readFile('server' + path, (err, content) => {
     if (err) { return callback(err) }
 
     callback(null, content.toString(), {
-      'Content-Type': 'text/html'
+      'Content-Type': (contentTypes[ext] ?? 'text/plain') + '; charset=utf-8'
     })
   })
 }
