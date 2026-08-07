@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const fs = require('fs')
 const ArgumentParser = require('argparse').ArgumentParser
 const http = require('http')
 const loadUrl = require('./src/loadUrl')
@@ -39,6 +40,12 @@ function handleRequest (request, response) {
   }
 
   const reqUrl = new URL('http://localhost' + request.url)
+
+  if (reqUrl.pathname !== '/') {
+    // serve local file
+    return serveFile(reqUrl.pathname, handleResult)
+  }
+
   if (reqUrl.searchParams.has('url')) {
     url = reqUrl.searchParams.get('url')
   }
@@ -46,7 +53,7 @@ function handleRequest (request, response) {
   logMsg.url = url
   loadUrl(url, handleResult)
 
-  function handleResult (err, result) {
+  function handleResult (err, result, httpHeaders = {}) {
     logMsg.duration = Date.now() - timeStamp
 
     if (err) {
@@ -62,16 +69,31 @@ function handleRequest (request, response) {
       return response.end(err.message)
     }
 
+    if (typeof result !== 'string') {
+      result = JSON.stringify(result, null, '  ')
+    }
+
     logMsg.status = 200
-    const httpHeaders = {}
     // httpHeaders['Access-Control-Allow-Origin'] = '*'
     response.writeHead(200, httpHeaders)
-
-    result = JSON.stringify(result, null, '  ')
 
     log(logMsg)
     response.end(result)
   }
+}
+
+function serveFile (path, callback) {
+  if (path.includes('..')) {
+    return callback(new Error('illegal path ' + path))
+  }
+
+  fs.readFile('server' + path, (err, content) => {
+    if (err) { return callback(err) }
+
+    callback(null, content.toString(), {
+      'Content-Type': 'text/html'
+    })
+  })
 }
 
 function log (msg) {
