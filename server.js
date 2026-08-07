@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const ArgumentParser = require('argparse').ArgumentParser
 const http = require('http')
+const loadUrl = require('./src/loadUrl')
 
 const defaultConfig = {
   port: 8080,
@@ -37,42 +38,40 @@ function handleRequest (request, response) {
     method: request.method
   }
 
-  request.on('end', () => {
-    const reqUrl = new URL('http://localhost' + request.url)
-    if (reqUrl.searchParams.has('url')) {
-      url = reqUrl.searchParams.get('url')
-    }
+  const reqUrl = new URL('http://localhost' + request.url)
+  if (reqUrl.searchParams.has('url')) {
+    url = reqUrl.searchParams.get('url')
+  }
 
-    logMsg.url = url
-    // DO STUFF(url, handleResult)
+  logMsg.url = url
+  loadUrl(url, handleResult)
 
-    function handleResult (err, result) {
-      logMsg.duration = Date.now() - timeStamp
+  function handleResult (err, result) {
+    logMsg.duration = Date.now() - timeStamp
 
-      if (err) {
-        logMsg.status = 400
-        response.writeHead(400, {
-          'Content-Type': 'text/html; charset=utf-8',
-          // 'Access-Control-Allow-Origin': '*'
-        })
+    if (err) {
+      logMsg.status = 400
+      response.writeHead(400, {
+        'Content-Type': 'text/html; charset=utf-8',
+        // 'Access-Control-Allow-Origin': '*'
+      })
 
-        logMsg.error = err.message
-
-        log(logMsg)
-        return response.end(err.message)
-      }
-
-      logMsg.status = 200
-      const httpHeaders = outputFormatter.httpHeaders()
-      // httpHeaders['Access-Control-Allow-Origin'] = '*'
-      response.writeHead(200, httpHeaders)
-
-      result = JSON.stringify(result, null, '  ')
+      logMsg.error = err.message
 
       log(logMsg)
-      response.end(result)
+      return response.end(err.message)
     }
-  })
+
+    logMsg.status = 200
+    const httpHeaders = {}
+    // httpHeaders['Access-Control-Allow-Origin'] = '*'
+    response.writeHead(200, httpHeaders)
+
+    result = JSON.stringify(result, null, '  ')
+
+    log(logMsg)
+    response.end(result)
+  }
 }
 
 function log (msg) {
