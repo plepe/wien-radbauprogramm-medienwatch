@@ -1,3 +1,5 @@
+import async from 'async'
+
 let textarea
 let actions
 
@@ -75,7 +77,7 @@ function createFromData (data, callback) {
     type: [{'target_id': 'medienbericht'}],
   }
 
-  Object.entries(data).forEach(([key, value]) => {
+  async.eachOf(data, (value, key, done) => {
     if (key in fields) {
       const field = fields[key]
 
@@ -84,15 +86,19 @@ function createFromData (data, callback) {
 
       content[field.key] = [entry]
     }
-  })
 
-  console.log(JSON.stringify(content, null, '  '))
-  //drupal.nodeSave(null, content, {}, (err, result) => {
-  //  const nid = result.nid[0].value
-  const nid = 1234
-  const href = '/node/' + nid + '/edit'
-  callback(null, href)
-  //})
+    done()
+  }, (err) => {
+    if (err) { return callback(err) }
+
+    console.log(JSON.stringify(content, null, '  '))
+    //drupal.nodeSave(null, content, {}, (err, result) => {
+    //  const nid = result.nid[0].value
+    const nid = 1234
+    const href = '/node/' + nid + '/edit'
+    callback(null, href)
+    //})
+  })
 }
 
 function dataToPrepopulate (data, callback) {
