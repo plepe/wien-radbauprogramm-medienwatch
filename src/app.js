@@ -19,6 +19,10 @@ const fields = {
     template: {
       format: 'basic_html'
     }
+  },
+  videos: {
+    key: 'field_content_videos',
+    type: 'image'
   }
 }
 
@@ -90,8 +94,25 @@ function createFromData (data, callback) {
 
     async.map(value, (v, done) => {
       const entry = field.template ?? {}
-      entry[field.valueKey ?? 'value'] = v
-      done(null, entry)
+
+      if (field.type === 'image') {
+        drupal.fileUpload(
+          {
+            filename: '...',
+            src: v.src
+          },
+          'node/medienbericht/' + field.key,
+          options,
+          (err, file) => {
+            entry[field.valueKey ?? 'target_id'] = file.fid[0].value
+            done(null, entry)
+          }
+        )
+      }
+      else {
+        entry[field.valueKey ?? 'value'] = v
+        done(null, entry)
+      }
     }, (err, entries) => {
       content[field.key] = entries
 
