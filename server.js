@@ -97,7 +97,8 @@ function serveFile (path, callback) {
     return callback(new Error('illegal path ' + path))
   }
 
-  const [m, ext] = path.match(/\.([a-z]+)$/)
+  const m = path.match(/\.([a-z]+)$/)
+  const ext = m ? m[1] : ''
 
   fs.readFile('server' + path, (err, content) => {
     if (err) { return callback(err) }
