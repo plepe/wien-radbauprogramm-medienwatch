@@ -1,0 +1,22 @@
+{
+  "title": {
+    "key": "title"
+  },
+  "url": {
+    "key": "field_url",
+    "valueKey": "uri"
+  },
+  "date": {
+    "key": "field_datum"
+  },
+  "content": {
+    "key": "field_content_body",
+    "template": {
+      "format": "basic_html"
+    }
+  },
+  "videos": {
+    "key": "field_content_videos",
+    "type": "image"
+  }
+}

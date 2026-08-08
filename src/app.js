@@ -3,28 +3,7 @@ import async from 'async'
 let textarea
 let actions
 
-const fields = {
-  title: {
-    key: 'title'
-  },
-  url: {
-    key: 'field_url',
-    valueKey: 'uri',
-  },
-  date: {
-    key: 'field_datum'
-  },
-  content: {
-    key: 'field_content_body',
-    template: {
-      format: 'basic_html'
-    }
-  },
-  videos: {
-    key: 'field_content_videos',
-    type: 'image'
-  }
-}
+const fields = require('./fields.json')
 
 global.onload = () => {
   textarea = document.getElementById('urls')
