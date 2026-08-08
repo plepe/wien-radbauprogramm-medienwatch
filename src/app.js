@@ -78,14 +78,16 @@ function createFromData (data, callback) {
   }
 
   async.eachOf(data, (value, key, done) => {
-    if (key in fields) {
-      const field = fields[key]
-
-      const entry = field.template ?? {}
-      entry[field.valueKey ?? 'value'] = value
-
-      content[field.key] = [entry]
+    if (!(key in fields)) {
+      return done()
     }
+
+    const field = fields[key]
+
+    const entry = field.template ?? {}
+    entry[field.valueKey ?? 'value'] = value
+
+    content[field.key] = [entry]
 
     done()
   }, (err) => {
