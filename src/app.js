@@ -84,12 +84,19 @@ function createFromData (data, callback) {
 
     const field = fields[key]
 
-    const entry = field.template ?? {}
-    entry[field.valueKey ?? 'value'] = value
+    if (!Array.isArray(value)) {
+      value = [value]
+    }
 
-    content[field.key] = [entry]
+    async.map(value, (v, done) => {
+      const entry = field.template ?? {}
+      entry[field.valueKey ?? 'value'] = v
+      done(null, entry)
+    }, (err, entries) => {
+      content[field.key] = entries
 
-    done()
+      done()
+    })
   }, (err) => {
     if (err) { return callback(err) }
 
