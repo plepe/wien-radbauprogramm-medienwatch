@@ -78,7 +78,7 @@ function createFromData (data, callback) {
         drupal.fileUpload(
           {
             filename: '...',
-            src: v.src
+            src: v.local
           },
           'node/medienbericht/' + field.key,
           options,

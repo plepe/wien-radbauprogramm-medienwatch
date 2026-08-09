@@ -1,4 +1,5 @@
 const findNewspaper = require('./findNewspaper')
+const downloadFiles = require('./downloadFiles')
 
 module.exports = function loadUrl (url, callback) {
   const newspaper = findNewspaper(url)
@@ -9,6 +10,6 @@ module.exports = function loadUrl (url, callback) {
   newspaper.loadArticle(url, {}, (err, article) => {
     if (err) { return callback(err) }
 
-    callback(null, article)
+    downloadFiles(article, (err) => callback(err, article))
   })
 }
