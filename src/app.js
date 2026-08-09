@@ -75,6 +75,10 @@ function createFromData (data, callback) {
       const entry = field.template ?? {}
 
       if (field.type === 'image') {
+        if (v.alt) {
+          entry.alt = v.alt
+        }
+
         drupal.fileUpload(
           {
             filename: '...',
