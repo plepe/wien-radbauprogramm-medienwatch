@@ -57,7 +57,10 @@ function handleRequest (request, response) {
   }
 
   logMsg.url = url
-  loadUrl(url, handleResult)
+  loadUrl(url, (err, result) => {
+    result = JSON.stringify(result, null, '  ')
+    handleResult(err, result)
+  })
 
   function handleResult (err, result, httpHeaders = {}) {
     logMsg.duration = Date.now() - timeStamp
@@ -73,10 +76,6 @@ function handleRequest (request, response) {
 
       log(logMsg)
       return response.end(err.message)
-    }
-
-    if (typeof result !== 'string') {
-      result = JSON.stringify(result, null, '  ')
     }
 
     logMsg.status = 200
@@ -103,7 +102,7 @@ function serveFile (path, callback) {
   fs.readFile('server' + path, (err, content) => {
     if (err) { return callback(err) }
 
-    callback(null, content.toString(), {
+    callback(null, content, {
       'Content-Type': (contentTypes[ext] ?? 'text/plain') + '; charset=utf-8'
     })
   })
