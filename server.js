@@ -3,6 +3,7 @@ const fs = require('fs')
 const ArgumentParser = require('argparse').ArgumentParser
 const http = require('http')
 const loadUrl = require('./src/loadUrl')
+const configFile = require('./config.json')
 
 const defaultConfig = {
   port: 8080,
@@ -88,8 +89,14 @@ function handleRequest (request, response) {
 }
 
 function serveFile (path, callback) {
+  let srvPath = 'server'
   if (path === '/') {
     path = '/index.html'
+  }
+
+  if (path.substr(0, 5) === '/tmp/') {
+    srvPath = configFile.tmpDir
+    path = path.substr(4)
   }
 
   if (path.includes('..')) {
@@ -99,7 +106,7 @@ function serveFile (path, callback) {
   const m = path.match(/\.([a-z]+)$/)
   const ext = m ? m[1] : ''
 
-  fs.readFile('server' + path, (err, content) => {
+  fs.readFile(srvPath + path, (err, content) => {
     if (err) { return callback(err) }
 
     callback(null, content, {
