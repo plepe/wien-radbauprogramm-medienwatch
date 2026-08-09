@@ -15,8 +15,12 @@
       "format": "basic_html"
     }
   },
+  "images": {
+    "key": "field_content_images",
+    "type": "image"
+  },
   "videos": {
-    "key": "field_content_videos",
+    "key": "field_content_video",
     "type": "image"
   }
 }
