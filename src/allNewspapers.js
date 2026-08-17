@@ -5,6 +5,7 @@ const allNewspapers = [
   require('./NewspaperOrfTvThek'),
   require('./NewspaperYoutube'),
   require('./NewspaperTwitter'),
+  require('./NewspaperFacebook'),
   require('./NewspaperDefault')
 ]
 
