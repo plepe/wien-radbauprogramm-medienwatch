@@ -6,6 +6,7 @@ const allNewspapers = [
   require('./NewspaperYoutube'),
   require('./NewspaperTwitter'),
   require('./NewspaperFacebook'),
+  require('./NewspaperBluesky'),
   require('./NewspaperDefault')
 ]
 
