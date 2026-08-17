@@ -5,7 +5,7 @@ const convert2Drupal = require('./convert2Drupal')
 const drupal = require('./drupal')
 
 module.exports = function newsImport (id, url, node, callback) {
-  const newspaper = findNewspaper(url)
+  const newspaper = findNewspaper(url, 'match')
   if (!newspaper) {
     return callback(new Error('No newspaper module found for ' + url))
   }

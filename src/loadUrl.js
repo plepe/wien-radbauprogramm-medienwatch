@@ -2,7 +2,7 @@ const findNewspaper = require('./findNewspaper')
 const downloadFiles = require('./downloadFiles')
 
 module.exports = function loadUrl (url, callback) {
-  const newspaper = findNewspaper(url)
+  const newspaper = findNewspaper(url, 'match')
   if (!newspaper) {
     return callback(new Error('No newspaper module found for ' + url))
   }

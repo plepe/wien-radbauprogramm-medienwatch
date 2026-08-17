@@ -1,13 +1,13 @@
 const allNewspapers = require('./allNewspapers')
 
-module.exports = function findNewspaper (url) {
+module.exports = function findNewspaper (url, funcname) {
   // match may return a likely-hood:
   // true = yes, this is it
   // 10 = almost perfect
   // 1 = fall-back option
   // 0/false = no
   const newspapersMatch = allNewspapers.map(n => {
-    let m = n.match(url)
+    let m = n[funcname] ? n[funcname](url) : false
     if (m === true) { m = 9999 }
     if (m === false ) { m = 0 }
     return [ m, n ]
