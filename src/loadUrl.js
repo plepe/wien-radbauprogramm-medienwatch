@@ -1,15 +1,27 @@
 const findNewspaper = require('./findNewspaper')
 const downloadFiles = require('./downloadFiles')
+const loadDocument = require('./loadDocument')
 
 module.exports = function loadUrl (url, callback) {
-  const newspaper = findNewspaper(url, 'match')
-  if (!newspaper) {
-    return callback(new Error('No newspaper module found for ' + url))
+  let newspaper = findNewspaper(url, 'match')
+  if (newspaper) {
+    return newspaper.loadArticle(url, {}, (err, article) => {
+      if (err) { return callback(err) }
+
+      downloadFiles(article, (err) => callback(err, article))
+    })
   }
 
-  newspaper.loadArticle(url, {}, (err, article) => {
-    if (err) { return callback(err) }
+  loadDocument(url, (err, document) => {
+    newspaper = findNewspaper({url, document}, 'matchUrlDocument')
+    if (!newspaper) {
+      return callback(new Error('No newspaper module found for ' + url))
+    }
 
-    downloadFiles(article, (err) => callback(err, article))
+    newspaper.loadArticleFromDocument({url, document}, {}, (err, article) => {
+      if (err) { return callback(err) }
+
+      downloadFiles(article, (err) => callback(err, article))
+    })
   })
 }
