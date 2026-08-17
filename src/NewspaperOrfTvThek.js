@@ -9,7 +9,7 @@ module.exports = class NewspaperOrfTvThek {
   }
 
   match (url) {
-    return url.match(/^https:\/\/tvthek\.orf\.at\//)
+    return !!url.match(/^https:\/\/tvthek\.orf\.at\//)
   }
 
   loadArticle (url, node, callback) {

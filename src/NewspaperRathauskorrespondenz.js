@@ -8,7 +8,7 @@ module.exports = class NewspaperRathauskorrespondenz {
   }
 
   match (url) {
-    return url.match(/^https:\/\/(presse\.wien\.gv\.at\/|www\.wien\.gv\.at\/presse\/)/)
+    return !!url.match(/^https:\/\/(presse\.wien\.gv\.at\/|www\.wien\.gv\.at\/presse\/)/)
   }
 
   loadArticle (url, node, callback) {

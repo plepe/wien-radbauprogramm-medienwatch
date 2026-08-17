@@ -21,7 +21,7 @@ module.exports = class NewspaperTwitter {
   }
 
   match (url) {
-    return url.match(/^https:\/\/(www\.|)twitter\.com\//)
+    return !!url.match(/^https:\/\/(www\.|)twitter\.com\//)
   }
 
   loadArticle (url, node, callback) {

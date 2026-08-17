@@ -7,7 +7,7 @@ module.exports = class NewspaperMeinBezirk {
   }
 
   match (url) {
-    return url.match(/^https:\/\/(www\.)?meinbezirk\.at\//)
+    return !!url.match(/^https:\/\/(www\.)?meinbezirk\.at\//)
   }
 
   loadArticle (url, node, callback) {

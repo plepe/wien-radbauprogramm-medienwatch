@@ -9,7 +9,7 @@ module.exports = class NewspaperYoutube {
   }
 
   match (url) {
-    return url.match(/^https:\/\/((www\.|)youtube\.com|youtu\.be)\//)
+    return !!url.match(/^https:\/\/((www\.|)youtube\.com|youtu\.be)\//)
   }
 
   loadArticle (url, node, callback) {
