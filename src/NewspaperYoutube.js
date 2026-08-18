@@ -44,7 +44,7 @@ module.exports = class NewspaperYoutube {
 
   cleanUp (callback) {
     async.parallel([
-      (done) => fs.unlink(config.tmpDir + '/video.mp4', done),
+//      (done) => fs.unlink(config.tmpDir + '/video.mp4', done),
       (done) => fs.unlink(config.tmpDir + '/video.description', done)
     ], callback)
   }
