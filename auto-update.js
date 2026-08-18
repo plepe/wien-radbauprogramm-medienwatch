@@ -18,7 +18,12 @@ drupal.whenLoggedIn(() => {
     data = JSON.parse(data)
 
     async.eachSeries(data, (item, done) => {
-      update(item.nid, done)
+      update(item.nid, (err) => {
+        if (err) {
+          console.error(item.nid, err)
+        }
+        done()
+      })
     })
   })
 })
