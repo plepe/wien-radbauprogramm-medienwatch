@@ -20,6 +20,7 @@ module.exports = class NewspaperFacebook {
 //    entry.url = getSelAttr(document, 'meta[property="og:url"]', 'content')
 //    entry.title = getSelAttr(document, 'meta[property="og:description"]', 'content').split(/\n/)[0]
 //    entry.medium = getSelAttr(document, 'meta[property="og:title"]', 'content')
+    entry.type = 'soecial_media'
 
     callback(null, entry)
   }

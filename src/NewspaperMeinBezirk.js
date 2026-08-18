@@ -43,7 +43,8 @@ module.exports = class NewspaperMeinBezirk {
           }
         })
 
-        const entry = { title, url, date, content: content.innerHTML, images }
+        const entry = { title, url, date, content: content.innerHTML, images,
+          medium: 'MeinBezirk', type: 'editorial' }
 
         callback(null, entry)
       })

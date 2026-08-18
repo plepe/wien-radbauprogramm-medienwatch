@@ -31,7 +31,7 @@ module.exports = class NewspaperRathauskorrespondenz {
         })
 
         const contentImages = document.querySelectorAll('.pressemeldung-td-right figure')
-        const entry = { title, url, date, content: content.innerHTML }
+        const entry = { title, medium: 'Rathauskorrespondenz', type: 'press_release', url, date, content: content.innerHTML }
 
         async.map(contentImages, (figure, done) => {
           const link = figure.querySelector('a').getAttribute('href')

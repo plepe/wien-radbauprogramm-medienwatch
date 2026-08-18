@@ -19,6 +19,7 @@ module.exports = class NewspaperBluesky {
     const ogTitle = getSelAttr(document, 'meta[property="og:title"]', 'content')
     const m = ogTitle.match(/^(.*) \(@.*\)/)
     entry.medium = m ? m[1] : ogTitle
+    entry.type = 'social_media'
     entry.title = getSelAttr(document, 'meta[name="description"]', 'content').split(/\n/)[0]
     entry.date = getSelAttr(document, 'meta[property="article:published_time"]', 'content')
 

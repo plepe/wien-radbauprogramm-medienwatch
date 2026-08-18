@@ -31,7 +31,7 @@ module.exports = class NewspaperW24 {
           }
         })
 
-        const entry = { title, url, date, content: content.innerHTML.trim(), videos }
+        const entry = { title, medium: 'W24', type: 'editorial', url, date, content: content.innerHTML.trim(), videos }
 
         callback(null, entry)
       })
