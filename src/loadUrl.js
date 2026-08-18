@@ -8,7 +8,8 @@ module.exports = function loadUrl (url, callback) {
     return newspaper.loadArticle(url, {}, (err, article) => {
       if (err) { return callback(err) }
 
-      downloadFiles(article, (err) => callback(err, article))
+      //downloadFiles(article, (err) => callback(err, article))
+      callback(null, article)
     })
   }
 
@@ -21,7 +22,8 @@ module.exports = function loadUrl (url, callback) {
     newspaper.loadArticleFromDocument({url, document}, {}, (err, article) => {
       if (err) { return callback(err) }
 
-      downloadFiles(article, (err) => callback(err, article))
+      //downloadFiles(article, (err) => callback(err, article))
+      callback(null, article)
     })
   })
 }
