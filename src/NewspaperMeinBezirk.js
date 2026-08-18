@@ -33,11 +33,13 @@ module.exports = class NewspaperMeinBezirk {
         const content = document.querySelector('div[data-content-text=""]')
         Array.from(content.children).forEach(p => {
           if (!['P', 'H2', 'H3'].includes(p.nodeName)) {
-            content.removeChild(p)
+            p.parentNode.removeChild(p)
           }
 
           if (p.textContent.trim() === 'Das könnte dich auch interessieren:' || p.textContent.trim() === '' || p.textContent.trim() === 'Mehr zu Thema:') {
-            content.removeChild(p)
+            if (p.parentNode) {
+              p.parentNode.removeChild(p)
+            }
           }
         })
 
