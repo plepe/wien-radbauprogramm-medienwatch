@@ -1,7 +1,6 @@
-const async = require('async')
-const childProcess = require('child_process')
-const fs = require('fs')
-const config = require('../config.json')
+const getSel = require('./getSel.js')
+const getSelAttr = getSel.attr
+const getSelText = getSel.text
 
 module.exports = class NewspaperDefault {
   title () {
@@ -52,22 +51,4 @@ module.exports = class NewspaperDefault {
   cleanUp (callback) {
     callback(null)
   }
-}
-
-function getSelAttr (document, selector, attribute) {
-  const sel = document.querySelector(selector)
-  if (!sel) {
-    return undefined
-  }
-
-  return sel.getAttribute(attribute)
-}
-
-function getSelText (document, selector) {
-  const sel = document.querySelector(selector)
-  if (!sel) {
-    return undefined
-  }
-
-  return sel.textContent.trim()
 }

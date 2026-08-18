@@ -1,3 +1,6 @@
+const getSel = require('./getSel.js')
+const getSelAttr = getSel.attr
+
 module.exports = class NewspaperBluesky {
   title () {
     return ''
@@ -8,7 +11,6 @@ module.exports = class NewspaperBluesky {
       return 10
     }
   }
-
 
   loadArticleFromDocument ({url, document}, node, callback) {
     const entry = {}
@@ -26,22 +28,4 @@ module.exports = class NewspaperBluesky {
   cleanUp (callback) {
     callback(null)
   }
-}
-
-function getSelAttr (document, selector, attribute) {
-  const sel = document.querySelector(selector)
-  if (!sel) {
-    return undefined
-  }
-
-  return sel.getAttribute(attribute)
-}
-
-function getSelText (document, selector) {
-  const sel = document.querySelector(selector)
-  if (!sel) {
-    return undefined
-  }
-
-  return sel.textContent.trim()
 }
