@@ -1,4 +1,5 @@
 const path = require('path')
+const config = require('../config.json')
 
 module.exports = function convert2Drupal (newspaper, article) {
   const node = {
@@ -13,26 +14,36 @@ module.exports = function convert2Drupal (newspaper, article) {
   node.field_content_body = [{ value: article.content, format: 'basic_html' }]
 
   node.field_content_images = (article.images ?? []).map(img => {
+    const data = {
+      filename: img.filename ?? path.basename(img.src),
+      src: img.src
+    }
+
+    if (img.tmpPath) {
+      data.localPath = config.tmpDir + '/' + img.tmpPath
+    }
+
     return {
       target_type: 'fileUpload',
-      data: {
-        filename: img.filename ?? path.basename(img.src),
-        localPath: img.localPath,
-        src: img.src
-      },
+      data,
       target_id: null,
       alt: img.alt
     }
   })
 
   node.field_content_video = (article.videos ?? []).map(vid => {
+    const data = {
+      filename: vid.filename ?? path.basename(vid.src),
+      src: vid.src
+    }
+
+    if (vid.tmpPath) {
+      data.localPath = config.tmpDir + '/' + img.tmpPath
+    }
+
     return {
       target_type: 'fileUpload',
-      data: {
-        filename: vid.filename ?? path.basename(vid.src),
-        content: vid.content,
-        src: vid.src
-      },
+      data,
       target_id: null
     }
   })

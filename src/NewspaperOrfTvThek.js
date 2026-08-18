@@ -21,7 +21,7 @@ module.exports = class NewspaperOrfTvThek {
         },
         (err) => done(err)),
       (done) => {
-        result.videos = [{ localPath: config.tmpDir + '/video.mp4', src: 'video.mp4' }]
+        result.videos = [{ tmpPath: 'video.mp4', src: 'video.mp4' }]
         done()
       }
       ], (err) => this.cleanUp(() => callback(err, result))

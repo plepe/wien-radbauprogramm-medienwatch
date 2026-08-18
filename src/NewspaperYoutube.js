@@ -29,7 +29,7 @@ module.exports = class NewspaperYoutube {
         type: 'social_media',
       }
 
-      entry.videos = [{ localPath: config.tmpDir + '/video.mp4', src: 'video.mp4' }]
+      entry.videos = [{ tmpPath: 'video.mp4', src: 'video.mp4' }]
 
       async.parallel([
         (done) => fs.readFile(config.tmpDir + '/video.description', (err, content) => {
