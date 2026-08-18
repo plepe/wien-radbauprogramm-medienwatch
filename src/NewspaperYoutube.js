@@ -24,9 +24,9 @@ module.exports = class NewspaperYoutube {
         (done) => fs.readFile(config.tmpDir + '/video.mp4', (err, content) => {
           if (err) { return callback(err) }
 
-          entry.videos = [{ content, src: 'video.mp4' }]
-          done()
-        }),
+      entry.videos = [{ localPath: config.tmpDir + '/video.mp4', src: 'video.mp4' }]
+
+      async.parallel([
         (done) => fs.readFile(config.tmpDir + '/video.description', (err, content) => {
           if (err) { return callback(err) }
 

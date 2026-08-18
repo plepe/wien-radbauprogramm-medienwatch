@@ -20,13 +20,10 @@ module.exports = class NewspaperOrfTvThek {
           cwd: config.tmpDir
         },
         (err) => done(err)),
-      (done) => fs.readFile(config.tmpDir + '/video.mp4', (err, content) => {
-        if (err) { return done(err) }
-
-        result.videos = [{ content, src: 'video.mp4' }]
-
+      (done) => {
+        result.videos = [{ localPath: config.tmpDir + '/video.mp4', src: 'video.mp4' }]
         done()
-      })
+      }
       ], (err) => this.cleanUp(() => callback(err, result))
     )
   }
