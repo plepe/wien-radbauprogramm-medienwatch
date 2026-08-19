@@ -18,7 +18,7 @@ module.exports = class NewspaperYoutube {
   loadArticleFromDocument ({url, document}, node, callback) {
     const [ fsPath, tmpDir ] = getTempDir()
 
-    childProcess.execFile('youtube-dl', [url, '-o', 'video.mp4', '--write-description', '-S', 'res,ext:mp4:m4a', '--recode', 'mp4', '-f', 'bestvideo[height<=720]+bestaudio/best[height<=720]'], {
+    childProcess.execFile('yt-dlp', [url, '-o', 'video.mp4', '--write-description', '-S', 'res,ext:mp4:m4a', '--recode', 'mp4', '-f', 'bestvideo[height<=720]+bestaudio/best[height<=720]'], {
       cwd: fsPath
     },
     (err) => {
