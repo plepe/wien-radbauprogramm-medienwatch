@@ -4,6 +4,7 @@ const fs = require('fs')
 const config = require('../config.json')
 const getSel = require('./getSel.js')
 const getSelAttr = getSel.attr
+const getTempDir = require('./getTempDir')
 
 module.exports = class NewspaperYoutube {
   title () {
@@ -15,8 +16,10 @@ module.exports = class NewspaperYoutube {
   }
 
   loadArticleFromDocument ({url, document}, node, callback) {
+    const [ fsPath, tmpDir ] = getTempDir()
+
     childProcess.execFile('youtube-dl', [url, '-o', 'video.mp4', '--write-description', '-S', 'res,ext:mp4:m4a', '--recode', 'mp4', '-f', 'bestvideo[height<=720]+bestaudio/best[height<=720]'], {
-      cwd: config.tmpDir
+      cwd: fsPath
     },
     (err) => {
       if (err) { return callback(err) }
@@ -29,10 +32,10 @@ module.exports = class NewspaperYoutube {
         type: 'social_media',
       }
 
-      entry.videos = [{ tmpPath: 'video.mp4', src: 'video.mp4' }]
+      entry.videos = [{ tmpPath: tmpDir + 'video.mp4', src: 'video.mp4' }]
 
       async.parallel([
-        (done) => fs.readFile(config.tmpDir + '/video.description', (err, content) => {
+        (done) => fs.readFile(fsPath + 'video.description', (err, content) => {
           if (err) { return callback(err) }
 
           entry.content = content.toString()
@@ -44,8 +47,8 @@ module.exports = class NewspaperYoutube {
 
   cleanUp (callback) {
     async.parallel([
-//      (done) => fs.unlink(config.tmpDir + '/video.mp4', done),
-      (done) => fs.unlink(config.tmpDir + '/video.description', done)
+//      (done) => fs.unlink(fsPath + 'video.mp4', done),
+//      (done) => fs.unlink(fsPath + 'video.description', done)
     ], callback)
   }
 }
