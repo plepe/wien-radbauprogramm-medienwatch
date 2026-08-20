@@ -18,7 +18,8 @@ module.exports = class StadtWienVergabeportal {
           type: 'call_for_bids',
           medium: 'Stadt Wien Vergabeportal',
           date: body.result.ogdCoreData.createdAt,
-          url: 'https://www.wien.gv.at/Vergabeportal/Detail/' + id
+          url: 'https://www.wien.gv.at/Vergabeportal/Detail/' + id,
+          message: 'Kann Dateien nicht automatisch extrahieren. Bitte Pläne selber hochladen (und Tag "Pläne" vergeben).'
         }
 
         callback(null, entry)
