@@ -17,10 +17,18 @@ module.exports = class NewspaperFacebook {
   loadArticleFromDocument ({url, document}, node, callback) {
     const entry = {}
 
-//    entry.url = getSelAttr(document, 'meta[property="og:url"]', 'content')
-//    entry.title = getSelAttr(document, 'meta[property="og:description"]', 'content').split(/\n/)[0]
-//    entry.medium = getSelAttr(document, 'meta[property="og:title"]', 'content')
-    entry.type = 'soecial_media'
+    entry.url = getSelAttr(document, 'meta[property="og:url"]', 'content')
+    if (!entry.url) {
+      return callback(null, entry)
+    }
+
+    entry.title = getSelAttr(document, 'meta[property="og:description"]', 'content').split(/\n/)[0]
+    const application = getSelAttr(document, 'meta[name="application-url"]', 'content')
+    if (application != "https://www.facebook.com/groups/") {
+      entry.medium = getSelAttr(document, 'meta[property="og:title"]', 'content')
+    }
+
+    entry.type = 'social_media'
 
     callback(null, entry)
   }
