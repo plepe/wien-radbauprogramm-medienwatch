@@ -14,7 +14,7 @@ module.exports = function findNewspaper (url, funcname) {
   })
   const newspapers = newspapersMatch
     .sort((a, b) => {
-      return b[0] - a[0]
+      return a[0] ?? 0 - b[0] ?? 0
     })
     .filter(v => v[0] > 0)
     .map(v => v[1])
