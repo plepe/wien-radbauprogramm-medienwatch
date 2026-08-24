@@ -13,7 +13,13 @@ module.exports = class NewspaperRathauskorrespondenz {
 
   loadArticle (url, node, callback) {
     fetch(url)
-      .then(req => req.text())
+      .then(req => {
+        if (req.status !== 200) {
+          throw new Error('Error ' + req.status + ' loading data from web page')
+        }
+
+        return req.text()
+      })
       .then(body => {
         const dom = new JSDOM(body)
         const document = dom.window.document
@@ -59,5 +65,6 @@ module.exports = class NewspaperRathauskorrespondenz {
           callback(err, entry)
         })
       })
+      .catch(err => callback(err))
   }
 }
