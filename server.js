@@ -13,7 +13,11 @@ const defaultConfig = {
 const contentTypes = {
   html: 'text/html',
   css: 'text/css',
-  js: 'application/js'
+  js: 'application/js',
+  webp: 'image/webp',
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
 }
 
 const parser = new ArgumentParser({
