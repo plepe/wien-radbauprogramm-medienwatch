@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const fs = require('fs')
 const ArgumentParser = require('argparse').ArgumentParser
 const loadUrl = require('./src/loadUrl')
 
@@ -21,4 +22,8 @@ loadUrl(url, (err, result) => {
   }
 
   console.log(JSON.stringify(result, null, '  '))
+
+  if (result.content) {
+    fs.writeFile('test.html', result.content, () => {})
+  }
 })

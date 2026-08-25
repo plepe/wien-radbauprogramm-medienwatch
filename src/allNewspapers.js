@@ -3,6 +3,7 @@ const allNewspapers = [
   require('./NewspaperRathauskorrespondenz'),
   require('./NewspaperW24'),
   require('./NewspaperOrfTvThek'),
+  require('./NewspaperOrfAt'),
   require('./NewspaperYoutube'),
   require('./NewspaperTwitter'),
   require('./NewspaperFacebook'),
