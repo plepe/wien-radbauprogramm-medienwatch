@@ -3,13 +3,17 @@ const async = require('async')
 const findNewspaper = require('./findNewspaper')
 const convert2Drupal = require('./convert2Drupal')
 const drupal = require('./drupal')
+const loadUrl = require('./loadUrl')
 
 module.exports = function newsImport (id, url, node, callback) {
-  const newspaper = findNewspaper(url, 'match')
-  if (!newspaper) {
-    return callback(new Error('No newspaper module found for ' + url))
-  }
+  loadUrl(url, (err, article, newspaper) => {
+    if (err) { return callback(err) }
 
+    run(id, url, node, article, newspaper, callback)
+  })
+}
+
+function run (id, url, node, article, newspaper, callback) {
   async.parallel({
     origNode: (done) => {
       if (id) {
@@ -19,12 +23,8 @@ module.exports = function newsImport (id, url, node, callback) {
       }
     },
     newNode: (done) => {
-      newspaper.loadArticle(url, node, (err, article) => {
-        if (err) { return done(err) }
-
-        const node = convert2Drupal(newspaper, article)
-        done(null, node)
-      })
+      const node = convert2Drupal(newspaper, article)
+      done(null, node)
     }
   },
   (err, { origNode, newNode }) => {

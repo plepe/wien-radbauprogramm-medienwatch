@@ -9,7 +9,7 @@ module.exports = function loadUrl (url, callback) {
       if (err) { return callback(err) }
 
       //downloadFiles(article, (err) => callback(err, article))
-      callback(null, article)
+      callback(null, article, newspaper)
     })
   }
 
@@ -23,7 +23,7 @@ module.exports = function loadUrl (url, callback) {
       if (err) { return callback(err) }
 
       //downloadFiles(article, (err) => callback(err, article))
-      callback(null, article)
+      callback(null, article, newspaper)
     })
   })
 }
