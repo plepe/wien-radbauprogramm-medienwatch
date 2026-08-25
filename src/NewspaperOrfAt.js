@@ -35,8 +35,10 @@ module.exports = class NewspaperDefault {
     })
 
     document.querySelectorAll('main.content figure img').forEach(dom => {
+      if (!dom.getAttribute('data-src') && !dom.getAttribute('srcset')) { return }
+
       const img = {
-        src: dom.getAttribute('data-src'),
+        src: dom.getAttribute('data-src') ?? dom.getAttribute('srcset').split(' ')[0],
         alt: dom.getAttribute('alt')
       }
 
