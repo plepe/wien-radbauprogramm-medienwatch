@@ -1,4 +1,5 @@
 {
+  "bin": "./cli.js",
   "scripts": {
     "lint": "standard --fix src/*.js",
     "build": "browserify -p esmify src/app.js -o server/app.js",
