@@ -3,6 +3,10 @@ const downloadFiles = require('./downloadFiles')
 const loadDocument = require('./loadDocument')
 
 module.exports = function loadUrl (url, callback) {
+  if (!url.match(/^https?:\/\//)) {
+    url = 'http://' + url
+  }
+
   let newspaper = findNewspaper(url, 'match')
   if (newspaper) {
     return newspaper.loadArticle(url, {}, (err, article) => {
