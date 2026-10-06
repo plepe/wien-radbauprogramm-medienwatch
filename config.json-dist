@@ -1,5 +1,6 @@
 {
   "tmpDir": "/tmp",
+  "userAgent": "medienwatch",
   "drupal": {
     "user": "importer",
     "pass": "",
