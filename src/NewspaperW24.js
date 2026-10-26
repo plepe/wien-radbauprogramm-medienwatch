@@ -22,7 +22,11 @@ module.exports = class NewspaperW24 {
         date = date.substr(6, 4) + '-' + date.substr(3, 2) + '-' + date.substr(0, 2)
 
         const m = body.match(/mediaServer\.vod \+ '\/vod\/w24\/([0-9a-zA-Z_]+\.mp4)', type:'video\/mp4'/)
-        const videos = [{ src: 'https://ms02.w24.at/vod/w24/' + m[1] }]
+        const videos = []
+
+        if (m) {
+          videos.push({ src: 'https://ms02.w24.at/vod/w24/' + m[1] })
+        }
 
         const content = document.querySelector('section.moduleContent')
         Array.from(content.children).forEach(p => {
