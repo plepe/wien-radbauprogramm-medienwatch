@@ -21,31 +21,36 @@ module.exports = class NewspaperDefault {
     entry.title = getSelAttr(document, 'meta[property="og:title"]', 'content')
     entry.medium = getSelAttr(document, 'meta[property="og:site_name"]', 'content')
     entry.date = getSelAttr(document, 'meta[name="dc.date"]', 'content')
-    entry.content = ''
     entry.type = 'editorial'
-    entry.images = []
 
-    let dom
-    if (dom = document.querySelector('main.content h1')) {
-      entry.content += dom.outerHTML
-    }
+    const main = document.querySelector('main.content, div[role=main].content')
 
-    document.querySelectorAll('main.content p, main.content h2, main.content ul').forEach(dom => {
-      entry.content += dom.outerHTML
-    })
+    if (main) {
+      entry.content = ''
+      entry.images = []
 
-    document.querySelectorAll('main.content figure img').forEach(dom => {
-      if (!dom.getAttribute('data-src') && !dom.getAttribute('srcset')) { return }
-
-      const img = {
-        src: dom.getAttribute('data-src') ?? dom.getAttribute('srcset').split(' ')[0],
-        alt: dom.getAttribute('alt')
+      let dom
+      if (dom = main.querySelector('h1')) {
+        entry.content += dom.outerHTML
       }
 
-      img.filename = path.basename(img.src).split('?')[0]
+      main.querySelectorAll('p, h2, ul').forEach(dom => {
+        entry.content += dom.outerHTML
+      })
 
-      entry.images.push(img)
-    })
+      main.querySelectorAll('figure img').forEach(dom => {
+        if (!dom.getAttribute('data-src') && !dom.getAttribute('srcset')) { return }
+
+        const img = {
+          src: dom.getAttribute('data-src') ?? dom.getAttribute('srcset').split(' ')[0],
+          alt: dom.getAttribute('alt')
+        }
+
+        img.filename = path.basename(img.src).split('?')[0]
+
+        entry.images.push(img)
+      })
+    }
 
     callback(null, entry)
   }
