@@ -22,9 +22,44 @@ module.exports = class NewspaperMobilitaetsagentur {
     entry.type = 'press_release'
     entry.title = getSelAttr(document, 'meta[property="og:title"]', 'content').split(/\n/)[0]
 
-    let date = document.querySelector('.news-card-date').textContent.trim()
+    const date = document.querySelector('.news-card-date').textContent.trim()
     const m = date.match(/^([0-9]+)\. ([A-Za-z]+) ([0-9]{4})$/)
     entry.date = sprintf('%04d-%02d-%02d', m[3], monthValue[m[2]], m[1])
+
+    let content = ''
+    Array.from(document.querySelectorAll('.text-content')).forEach(div => {
+      content += div.innerHTML.trim()
+    })
+
+    const linklist = document.querySelector('wm-section.linklist-block')
+    if (linklist) {
+      content += '\n' + linklist.querySelector('ul').outerHTML
+    }
+
+    const images = []
+    let img = document.querySelector('wm-stage picture img')
+    if (img) {
+      images.push({
+        src: 'https://mobilitaetsagentur.at' + img.src,
+        alt: img.alt
+      })
+    }
+
+    const galleries = document.querySelectorAll('.masonry-gallery')
+    Array.from(galleries).forEach(gallery => {
+      Array.from(gallery.querySelectorAll('picture img')).forEach(img => {
+        images.push({
+          src: 'https://mobilitaetsagentur.at' + img.src,
+          alt: img.alt
+        })
+      })
+    })
+
+    if (content) {
+      content = '<p>' + getSelAttr(document, 'meta[property="og:description"]', 'content') + '</p>\n' + content
+      entry.content = content
+      entry.images = images
+    }
 
     callback(null, entry)
   }
