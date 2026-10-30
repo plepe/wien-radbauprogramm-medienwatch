@@ -20,7 +20,7 @@ module.exports = class NewspaperMobilitaetsagentur {
     entry.url = getSelAttr(document, 'meta[property="og:url"]', 'content')
     entry.medium = 'Mobilitätsagentur Wien'
     entry.type = 'press_release'
-    entry.title = getSelAttr(document, 'meta[property="og:title"]', 'content').split(/\n/)[0]
+    entry.title = document.querySelector('head title').textContent
 
     const date = document.querySelector('.news-card-date').textContent.trim()
     const m = date.match(/^([0-9]+)\. ([A-Za-z]+) ([0-9]{4})$/)
