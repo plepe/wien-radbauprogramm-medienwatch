@@ -47,10 +47,10 @@ module.exports = class NewspaperMobilitaetsagentur {
 
     const galleries = document.querySelectorAll('.masonry-gallery')
     Array.from(galleries).forEach(gallery => {
-      Array.from(gallery.querySelectorAll('picture img')).forEach(img => {
+      Array.from(gallery.querySelectorAll('a')).forEach(link => {
         images.push({
-          src: 'https://mobilitaetsagentur.at' + img.src,
-          alt: img.alt
+          src: 'https://mobilitaetsagentur.at' + link.href,
+          alt: link.getAttribute('data-alt')
         })
       })
     })
