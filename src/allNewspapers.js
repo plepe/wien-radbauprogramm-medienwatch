@@ -10,6 +10,7 @@ const allNewspapers = [
   require('./NewspaperBluesky'),
   require('./StadtWienVergabeportal'),
   require('./NewspaperMobilitaetsagentur'),
+  require('./NewspaperOTS'),
   require('./NewspaperDefault')
 ]
 
