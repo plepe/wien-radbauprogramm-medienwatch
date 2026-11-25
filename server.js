@@ -43,6 +43,7 @@ server.listen(config.port, config.ip)
 
 function handleRequest (request, response) {
   let url
+  let body = ''
   const timeStamp = Date.now()
   const logMsg = {
     date: new Date().toISOString(),
@@ -52,7 +53,7 @@ function handleRequest (request, response) {
 
   const reqUrl = new URL('http://localhost' + request.url)
 
-  if (reqUrl.pathname !== '/' || !reqUrl.search) {
+  if (request.method !== 'POST' && (reqUrl.pathname !== '/' || !reqUrl.search)) {
     // serve local file
     return serveFile(reqUrl.pathname, handleResult)
   }
@@ -61,6 +62,16 @@ function handleRequest (request, response) {
     url = reqUrl.searchParams.get('url')
     processUrl(url)
   }
+
+  request.on('data', (data) => {
+    body += data
+  })
+
+  request.on('end', () => {
+    if (body) {
+      processUrl(body)
+    }
+  })
 
   function processUrl (url) {
     logMsg.url = url
