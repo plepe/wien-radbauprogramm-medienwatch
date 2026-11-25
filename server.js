@@ -59,13 +59,16 @@ function handleRequest (request, response) {
 
   if (reqUrl.searchParams.has('url')) {
     url = reqUrl.searchParams.get('url')
+    processUrl(url)
   }
 
-  logMsg.url = url
-  loadUrl(url, (err, result) => {
-    result = JSON.stringify(result, null, '  ')
-    handleResult(err, result)
-  })
+  function processUrl (url) {
+    logMsg.url = url
+    loadUrl(url, (err, result) => {
+      result = JSON.stringify(result, null, '  ')
+      handleResult(err, result)
+    })
+  }
 
   function handleResult (err, result, httpHeaders = {}) {
     logMsg.duration = Date.now() - timeStamp
