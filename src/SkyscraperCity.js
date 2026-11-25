@@ -1,3 +1,4 @@
+const path = require('path')
 const loadDocument = require('./loadDocument.js')
 const getSel = require('./getSel.js')
 const getSelAttr = getSel.attr
@@ -31,8 +32,13 @@ module.exports = class StadtWienVergabeportal {
         const img = div.querySelector('img')
 
         if (img) {
+          const p = path.parse(img.getAttribute('data-src'))
+          const m = p.dir.match(/\/([^/]+)\.[0-9]+$/)
+          const filename = m ? m[1].replace(/-([^-]+)$/, '.$1') : path.basename(p.dir)
+
           const image = {
-            src: img.getAttribute('data-src'),
+            src: p.dir,
+            filename,
             alt: img.getAttribute('alt')
           }
 
